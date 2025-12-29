@@ -1,0 +1,57 @@
+{
+  "name": "@luolapeikko/memcached",
+  "version": "0.0.1",
+  "description": "Javascript memcached server",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "bin": {
+    "memcached": "./dist/index.mjs"
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts --sourcemap --format cjs,esm --dts --clean -c tsconfig.build.json",
+    "lint": "biome check",
+    "test": "vitest run --coverage",
+    "validate": "tsc --noEmit"
+  },
+  "keywords": [
+    "memcached",
+    "npm",
+    "server",
+    "memcache",
+    "cache",
+    "caching",
+    "in-memory",
+    "database"
+  ],
+  "author": "mharj",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luolapeikko/memcached"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "2.3.10",
+    "@types/memcached": "^2.2.10",
+    "@types/node": "^25.0.3",
+    "@vitest/coverage-v8": "^4.0.16",
+    "c8": "^10.1.3",
+    "memcached": "^2.2.2",
+    "tsdown": "^0.18.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "dependencies": {
+    "@avanio/logger-like": "^0.2.12",
+    "@luolapeikko/core-ts-error": "^0.0.4",
+    "@luolapeikko/result-option": "^2.1.1"
+  },
+  "packageManager": "pnpm@10.26.2+sha512.0e308ff2005fc7410366f154f625f6631ab2b16b1d2e70238444dd6ae9d630a8482d92a451144debc492416896ed16f7b114a86ec68b8404b2443869e68ffda6"
+}

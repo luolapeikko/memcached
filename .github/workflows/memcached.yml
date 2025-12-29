@@ -1,0 +1,11 @@
+name: memcached CI
+permissions:
+  contents: read
+on:
+  push:
+    branches: [main]
+
+jobs:
+  module-flow:
+    uses: ./.github/workflows/module.yml
+    secrets: inherit
