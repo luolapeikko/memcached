@@ -1,4 +1,4 @@
-import type {ILoggerLike} from '@avanio/logger-like';
+import type {ILoggerLike} from '@luolapeikko/logger-type';
 
 const MAX_RELATIVE_SECONDS = 60 * 60 * 24 * 30;
 
