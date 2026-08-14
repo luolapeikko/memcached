@@ -17,7 +17,7 @@
     "default": "./dist/index.mjs"
   },
   "bin": {
-    "memcached": "./dist/index.mjs"
+    "memcached": "./cli.mjs"
   },
   "scripts": {
     "build": "tsdown src/index.ts --sourcemap --format cjs,esm --dts --clean -c tsconfig.build.json",
@@ -26,7 +26,8 @@
     "validate": "tsc --noEmit"
   },
   "files": [
-    "dist"
+    "dist",
+    "cli.mjs"
   ],
   "keywords": [
     "memcached",
