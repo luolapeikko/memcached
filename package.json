@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "tsdown src/index.ts --sourcemap --format cjs,esm --dts --clean -c tsconfig.build.json",
+    "prepublishOnly": "npm run build",
     "lint": "biome check",
     "test": "vitest run --coverage",
     "validate": "tsc --noEmit"
