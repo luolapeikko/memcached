@@ -25,6 +25,9 @@
     "test": "vitest run --coverage",
     "validate": "tsc --noEmit"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "memcached",
     "npm",
