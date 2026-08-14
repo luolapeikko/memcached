@@ -1,0 +1,54 @@
+name: luolapeikko/memcached CICD
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
+env:
+  # Setting an environment variable with the value of a configuration variable
+  PUBLISH_BRANCH: "refs/heads/main"
+  PACKAGE_NAME: "unknown"
+  PACKAGE_VERSION: "unknown"
+  NPM_VERSION: "unknown"
+  HAVE_VALIDATE_SCRIPT: false
+  HAVE_LINT_SCRIPT: false
+  HAVE_TEST_SCRIPT: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: luolapeikko/github-actions/read-package-info@v0
+      - uses: pnpm/action-setup@9b5745cdf0a2e8c2620f0746130f809adb911c19 # v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run validate
+        if: env.HAVE_VALIDATE_SCRIPT == 'true'
+        run: pnpm run validate
+
+      - name: Run unit tests
+        if: env.HAVE_TEST_SCRIPT == 'true'
+        run: pnpm test
+
+      - name: Run linter checks
+        if: env.HAVE_LINT_SCRIPT == 'true'
+        run: pnpm run lint
+
+      # npm publish when PR done
+      - name: Publish ${{env.PACKAGE_NAME}} ${{env.PACKAGE_VERSION}}
+        run: npm publish --no-git-checks --access public
+        if: |
+          github.ref == env.PUBLISH_BRANCH &&
+          env.PACKAGE_VERSION != env.NPM_VERSION

@@ -21,7 +21,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "complexity": {
         "noStaticOnlyClass": "off",
         "noForEach": "error",
@@ -30,12 +30,11 @@
       "style": {
         "noNegationElse": "error"
       },
-      "nursery": {
-        "noImportCycles": "error"
-      },
+      "nursery": {},
       "suspicious": {
         "noEvolvingTypes": "error",
-        "noMisplacedAssertion": "error"
+        "noMisplacedAssertion": "error",
+        "noImportCycles": "error"
       }
     }
   },

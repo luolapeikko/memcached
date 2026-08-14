@@ -1,5 +1,6 @@
 import * as net from 'node:net';
-import {type ILoggerLike, LevelLogger, LogLevel} from '@avanio/logger-like';
+import {LevelLogger} from '@luolapeikko/level-logger';
+import type {ILoggerLike} from '@luolapeikko/logger-type';
 import {Err, type IResult, Ok} from '@luolapeikko/result-option';
 import type {IStore} from './IStore';
 import {ServerSocketConnection} from './ServerConnection';
@@ -22,8 +23,7 @@ export class MemcachedServer {
 
 	constructor(options: ServerConnectionOptions) {
 		this.#options = options;
-		this.logger = new LevelLogger(options.logger);
-		this.logger.setLoggerLevel(LogLevel.Info);
+		this.logger = new LevelLogger({level: 'info'}, options.logger);
 	}
 
 	/*

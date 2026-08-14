@@ -1,4 +1,3 @@
-import {ErrorCast} from '@luolapeikko/core-ts-error';
 import {Err, type IResult, Ok} from '@luolapeikko/result-option';
 import {ClientError} from './ClientError';
 import type {IStore} from './IStore';
@@ -36,7 +35,7 @@ export class InMemoryStore implements IStore {
 
 	public get(key: string): IResult<MemcachedRecord | undefined, ClientError | ServerError> {
 		const record = this.#records.get(key);
-		if (!record || !record.isValid()) {
+		if (!record?.isValid()) {
 			return Ok(undefined);
 		}
 		return Ok(record);
@@ -49,7 +48,8 @@ export class InMemoryStore implements IStore {
 			process.nextTick(() => this.purge());
 			return Ok();
 		} catch (cause) {
-			return Err(new ServerError(ErrorCast.from(cause).message, {cause}));
+			const err = cause instanceof Error ? cause : new Error(String(cause));
+			return Err(new ServerError(err.message, {cause}));
 		}
 	}
 
@@ -60,7 +60,8 @@ export class InMemoryStore implements IStore {
 			}
 			return Ok(this.#records.delete(key));
 		} catch (cause) {
-			return Err(new ServerError(ErrorCast.from(cause).message, {cause}));
+			const err = cause instanceof Error ? cause : new Error(String(cause));
+			return Err(new ServerError(err.message, {cause}));
 		}
 	}
 

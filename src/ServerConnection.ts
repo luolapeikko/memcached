@@ -1,6 +1,5 @@
 import type * as net from 'node:net';
-import {type LevelLogger, LogLevel} from '@avanio/logger-like';
-import {ErrorCast} from '@luolapeikko/core-ts-error';
+import type {LevelLogger} from '@luolapeikko/level-logger';
 import {Err, type IResult, Ok} from '@luolapeikko/result-option';
 import {ClientError} from './ClientError';
 import type {IStore} from './IStore';
@@ -90,19 +89,19 @@ export class ServerSocketConnection {
 					this.#logger.debug(`verbosity: ${words[0]}`);
 					switch (words[0]) {
 						case '0':
-							this.#logger.setLoggerLevel(LogLevel.None);
+							this.#logger.level = 'none';
 							break;
 						case '1':
-							this.#logger.setLoggerLevel(LogLevel.Debug);
+							this.#logger.level = 'debug';
 							break;
 						case '2':
-							this.#logger.setLoggerLevel(LogLevel.Info);
+							this.#logger.level = 'info';
 							break;
 						case '3':
-							this.#logger.setLoggerLevel(LogLevel.Warn);
+							this.#logger.level = 'warn';
 							break;
 						case '4':
-							this.#logger.setLoggerLevel(LogLevel.Error);
+							this.#logger.level = 'error';
 							break;
 					}
 					return TcpResponse.OK;
@@ -252,7 +251,8 @@ export class ServerSocketConnection {
 			if (cause instanceof ClientError || cause instanceof ServerError) {
 				return cause.toTcpString();
 			}
-			return new ServerError(ErrorCast.from(cause).message, {cause}).toTcpString();
+			const err = cause instanceof Error ? cause : new Error(String(cause));
+			return new ServerError(err.message, {cause}).toTcpString();
 		}
 	}
 

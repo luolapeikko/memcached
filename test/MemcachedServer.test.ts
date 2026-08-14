@@ -1,4 +1,4 @@
-import {type ILoggerLike, LogLevel} from '@avanio/logger-like';
+import type {ILoggerLike} from '@luolapeikko/logger-type';
 import {afterAll, beforeAll, beforeEach, describe, expect, it, vi} from 'vitest';
 import {InMemoryStore} from '../src/InMemoryStore';
 import type {MemcachedRecord} from '../src/MemcachedRecord';
@@ -16,7 +16,7 @@ const logger = {
 const records = new Map<string, MemcachedRecord>();
 
 const server = new MemcachedServer({port: 11234, store: new InMemoryStore(records), logger});
-server.logger.setLoggerLevel(LogLevel.Debug);
+server.logger.level = 'debug';
 let client: MemcacheTestClient;
 
 describe('MemcachedServer', () => {
